@@ -2,12 +2,10 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequest, Unauthenticated } = require("../errors");
-const Token = require("../models/Token");
-const crypto = require("crypto");
-const { createToken, attachCookiesToRes } = require("../utils/jwt");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, picturePath } = req.body;
 
   if (!firstName || !lastName || !email || !password) {
     throw new BadRequest("Please fill out all fields!");
@@ -17,9 +15,20 @@ const register = async (req, res) => {
     throw new BadRequest("An account with this email already exist!");
   }
   const user = await User.create(req.body);
-  return res
-    .status(StatusCodes.CREATED)
-    .json({ user: { firstName, lastName, email, password } });
+  const token = user.genJWT();
+  // ill send the id twice once in jwt and once with response user object
+  res.status(StatusCodes.CREATED).json({
+    user: {
+      firstName,
+      lastName,
+      email,
+      password: user.password,
+      friends: user.friends,
+      picturePath,
+      id: user._id,
+    },
+    token,
+  });
 };
 
 const login = async (req, res) => {
@@ -31,40 +40,16 @@ const login = async (req, res) => {
   if (!user || !(await bcrypt.compare(password, user.password))) {
     throw new Unauthenticated("Invalid credentials!");
   }
-
-  const userToken = createToken(user);
-
-  let refreshToken = "";
-  const existingToken = await Token.findOne({ user: user._id });
-  if (existingToken) {
-    refreshToken = existingToken.refreshToken;
-    attachCookiesToRes(res, userToken, refreshToken);
-    return res.status(StatusCodes.OK).json({ user: userToken });
-  }
-  refreshToken = await crypto.randomBytes(64).toString("hex");
-  const userAgent = req.headers["user-agent"];
-  const ip = req.ip;
-  const token = await Token.create({
-    userAgent,
-    ip,
-    user: user._id,
-    refreshToken,
-  });
-  attachCookiesToRes(res, userToken, refreshToken);
-  res.status(StatusCodes.OK).json({ user });
+  const token = user.genJWT();
+  const formattedUser = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    password: user.password,
+    picturePath: user.picturePath,
+    friends: user.friends,
+  };
+  res.status(StatusCodes.OK).json({ user: formattedUser, token });
 };
 
-const logout = async (req, res) => {
-  const { userId } = req.user;
-  await Token.findOneAndDelete({ user: userId });
-  res.cookie("accessToken", "", {
-    expires: new Date(Date.now()),
-    httpOnly: true,
-  });
-  res.cookie("refreshToken", "", {
-    expires: new Date(Date.now()),
-    httpOnly: true,
-  });
-  res.status(StatusCodes.OK).json({ msg: "User logged out!" });
-};
-module.exports = { register, login, logout };
+module.exports = { register, login };
