@@ -16,7 +16,6 @@ const register = async (req, res) => {
   }
   const user = await User.create(req.body);
   const token = user.genJWT();
-  // ill send the id twice once in jwt and once with response user object
   res.status(StatusCodes.CREATED).json({
     user: {
       firstName,
