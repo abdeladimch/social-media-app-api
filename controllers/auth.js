@@ -17,7 +17,9 @@ const register = async (req, res) => {
     throw new BadRequest("An account with this email already exist!");
   }
   const user = await User.create(req.body);
-  return res.status(StatusCodes.CREATED).json(user);
+  return res
+    .status(StatusCodes.CREATED)
+    .json({ firstName, lastName, email, password });
 };
 
 const login = async (req, res) => {
@@ -49,7 +51,6 @@ const login = async (req, res) => {
     refreshToken,
   });
   attachCookiesToRes(res, userToken, refreshToken);
-  // we have to send the user back to the frontend to access friends and other properties
   res.status(StatusCodes.OK).json(user);
 };
 
