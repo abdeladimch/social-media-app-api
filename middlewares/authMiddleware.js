@@ -1,20 +1,15 @@
-// to do!
-const { verifyToken, attachCookiesToRes } = require("../utils/jwt");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 const { Unauthenticated } = require("../errors");
 
 const authMiddleware = async (req, res, next) => {
-  const { accessToken, refreshToken } = req.signedCookies;
-  if (!accessToken && !refreshToken) {
-    throw new Unauthenticated("Unauthenticated!");
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("bearer ")) {
+    throw new Unauthenticated("Authentication failed!");
   }
-
-  if (accessToken) {
-    req.user = verifyToken(accessToken);
-    return next();
-  }
-  const decoded = verifyToken(refreshToken);
-  req.user = decoded.userToken;
-  attachCookiesToRes(res, decoded.userToken, decoded.refreshToken);
+  const token = authHeader.split(" ")[1];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = { userId: decoded.userId };
   next();
 };
 
