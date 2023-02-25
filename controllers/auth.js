@@ -19,7 +19,7 @@ const register = async (req, res) => {
   const user = await User.create(req.body);
   return res
     .status(StatusCodes.CREATED)
-    .json({ firstName, lastName, email, password });
+    .json({ user: { firstName, lastName, email, password } });
 };
 
 const login = async (req, res) => {
@@ -51,7 +51,7 @@ const login = async (req, res) => {
     refreshToken,
   });
   attachCookiesToRes(res, userToken, refreshToken);
-  res.status(StatusCodes.OK).json(user);
+  res.status(StatusCodes.OK).json({ user });
 };
 
 const logout = async (req, res) => {
