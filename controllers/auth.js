@@ -12,7 +12,7 @@ const register = async (req, res) => {
   if (!firstName || !lastName || !email || !password) {
     throw new BadRequest("Please fill out all fields!");
   }
-  const existingUser = await User.findOne({ email }).select("-password");
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new BadRequest("An account with this email already exist!");
   }
@@ -25,7 +25,7 @@ const login = async (req, res) => {
   if (!email || !password) {
     throw new BadRequest("Please fill out all fields!");
   }
-  const user = await User.findOne({ email }).select("-password");
+  const user = await User.findOne({ email });
   if (!user || !(await bcrypt.compare(password, user.password))) {
     throw new Unauthenticated("Invalid credentials!");
   }
