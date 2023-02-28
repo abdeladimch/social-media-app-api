@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 //routers import
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
-const postRouter = require("./routes/posts");
+const postRouter = require("./routes/post");
 
 // middleware import
 const connectDB = require("./db/connectDB");
