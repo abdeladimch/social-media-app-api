@@ -8,7 +8,7 @@ const {
   getAllPosts,
   getUserPosts,
   likePost,
-} = require("../controllers/posts");
+} = require("../controllers/post");
 
 router.get("/", authMiddleware, getAllPosts);
 router.post("/", authMiddleware, upload.single("picture"), createPost);
