@@ -12,11 +12,11 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   const { userId } = req.params;
-  const user = await User.findOne({ _id: userId });
+  const user = await User.findOne({ _id: userId }).select("-password");
   if (!user) {
     throw new NotFound(`Couldn't find user with id ${userId}`);
   }
-  res.status(StatusCodes.OK).json(user);
+  res.status(StatusCodes.OK).json({ user });
 };
 
 const getUserFriends = async (req, res) => {
