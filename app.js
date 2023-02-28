@@ -45,7 +45,7 @@ app.use(morgan("tiny"));
 connectDB(process.env.MONGO_URI);
 
 app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);
+app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
 
 app.use(errorHandler);
