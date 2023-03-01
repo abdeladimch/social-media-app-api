@@ -24,7 +24,7 @@ const register = async (req, res) => {
       password: user.password,
       friends: user.friends,
       picturePath,
-      id: user._id,
+      userId: user._id,
     },
     token,
   });
@@ -47,6 +47,7 @@ const login = async (req, res) => {
     password: user.password,
     picturePath: user.picturePath,
     friends: user.friends,
+    userId: user._id,
   };
   res.status(StatusCodes.OK).json({ user: formattedUser, token });
 };
