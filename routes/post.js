@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../utils/imageUpload");
 
 const authMiddleware = require("../middlewares/authMiddleware");
 const {
@@ -11,8 +10,8 @@ const {
 } = require("../controllers/post");
 
 router.get("/", authMiddleware, getAllPosts);
-router.post("/", authMiddleware, upload.single("picture"), createPost);
+router.post("/:userId", authMiddleware, createPost);
 router.get("/likePost", authMiddleware, likePost);
-router.get("/:id/posts", authMiddleware, getUserPosts);
+router.get("/:userId/posts", authMiddleware, getUserPosts);
 
 module.exports = router;
