@@ -7,7 +7,7 @@ const getAllUsers = async (req, res) => {
   if (!users) {
     throw new NotFound("No users found!");
   }
-  res.status(StatusCodes.OK).json(users);
+  res.status(StatusCodes.OK).json({ users });
 };
 
 const getUser = async (req, res) => {
@@ -38,7 +38,7 @@ const getUserFriends = async (req, res) => {
       };
     }
   );
-  res.status(StatusCodes.OK).json(formattedData);
+  res.status(StatusCodes.OK).json({ friends: formattedData });
 };
 
 const addremoveFriend = async (req, res) => {
@@ -67,7 +67,7 @@ const addremoveFriend = async (req, res) => {
       };
     }
   );
-  res.status(StatusCodes.OK).json(formattedData);
+  res.status(StatusCodes.OK).json({ friend: formattedData });
 };
 
 module.exports = {
