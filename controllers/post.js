@@ -18,7 +18,7 @@ const createPost = async (req, res) => {
     comments: [],
   });
   const posts = await Post.find();
-  res.status(StatusCodes.CREATED).json(posts);
+  res.status(StatusCodes.CREATED).json({ posts });
 };
 
 const getAllPosts = async (req, res) => {
@@ -26,7 +26,7 @@ const getAllPosts = async (req, res) => {
   if (!posts) {
     throw new NotFound("No posts for the moment!");
   }
-  res.status(StatusCodes.OK).json(posts);
+  res.status(StatusCodes.OK).json({ posts });
 };
 
 const getUserPosts = async (req, res) => {
@@ -35,7 +35,7 @@ const getUserPosts = async (req, res) => {
   if (!posts) {
     throw new NotFound("No posts for the moment!");
   }
-  res.status(StatusCodes.OK).json(posts);
+  res.status(StatusCodes.OK).json({ posts });
 };
 
 const likePost = async (res, req) => {
@@ -54,7 +54,7 @@ const likePost = async (res, req) => {
     { likes: post.likes },
     { new: true }
   );
-  res.status(StatusCodes.OK).json(updatedPost);
+  res.status(StatusCodes.OK).json({ post: updatedPost });
 };
 
 module.exports = {
