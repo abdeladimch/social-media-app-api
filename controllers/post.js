@@ -6,6 +6,9 @@ const { StatusCodes } = require("http-status-codes");
 const createPost = async (req, res) => {
   const { userId } = req.params;
   const { description, postPicturePath } = req.body;
+  if (!description) {
+    throw new BadRequest("Please provide a post description!");
+  }
   const user = await User.findOne({ _id: userId });
   const post = await Post.create({
     user: userId,
