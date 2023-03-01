@@ -4,7 +4,7 @@ const { NotFound, BadRequest } = require("../errors");
 const { StatusCodes } = require("http-status-codes");
 
 const createPost = async (req, res) => {
-  const { id: userId } = req.params;
+  const { userId } = req.params;
   const { description, postPicturePath } = req.body;
   const user = await User.findOne({ _id: userId });
   const post = await Post.create({
