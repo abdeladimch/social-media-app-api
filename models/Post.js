@@ -23,8 +23,14 @@ const PostSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    postPicturePath: String,
-    userPicturePath: String,
+    postPicturePath: {
+      type: String,
+      default: "",
+    },
+    userPicturePath: {
+      type: String,
+      default: "",
+    },
     user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
