@@ -29,12 +29,12 @@ const getUserFriends = async (req, res) => {
     throw new NotFound("No friends found!");
   }
   const formattedData = friends.map(
-    ({ _id, firstName, lastName, profilePicture }) => {
+    ({ _id, firstName, lastName, picturePath }) => {
       return {
         _id,
         firstName,
         lastName,
-        profilePicture,
+        picturePath,
       };
     }
   );
@@ -58,12 +58,12 @@ const addremoveFriend = async (req, res) => {
     user.friends.map((id) => User.findOne({ _id: id }))
   );
   const formattedData = friends.map(
-    ({ _id, firstName, lastName, profilePicture }) => {
+    ({ _id, firstName, lastName, picturePath }) => {
       return {
         _id,
         firstName,
         lastName,
-        profilePicture,
+        picturePath,
       };
     }
   );
