@@ -67,7 +67,7 @@ const addremoveFriend = async (req, res) => {
       };
     }
   );
-  res.status(StatusCodes.OK).json({ friend: formattedData });
+  res.status(StatusCodes.OK).json({ friends: formattedData });
 };
 
 module.exports = {
