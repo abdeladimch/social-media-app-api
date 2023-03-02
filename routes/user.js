@@ -13,6 +13,10 @@ const {
 router.get("/getAllUsers", authMiddleware, getAllUsers);
 router.get("/:userId", authMiddleware, getUser);
 router.get("/:userId/friends", authMiddleware, getUserFriends);
-router.patch("/addFriend/:userId/:friendId", authMiddleware, addremoveFriend);
+router.patch(
+  "/addRemoveFriend/:userId/:friendId",
+  authMiddleware,
+  addremoveFriend
+);
 
 module.exports = router;
