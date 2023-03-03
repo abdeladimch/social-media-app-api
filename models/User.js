@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema({
     default: "",
   },
   friends: {
-    type: [mongoose.Types.ObjectId],
+    type: [],
     default: [],
   },
 });
