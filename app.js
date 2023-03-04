@@ -47,6 +47,11 @@ connectDB(process.env.MONGO_URI);
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
+app.get("/", (req, res) => {
+  res
+    .status(200)
+    .json({ status: "Success!", msg: "Welcome to Social Media API" });
+});
 
 app.use(errorHandler);
 app.use(notFound);
