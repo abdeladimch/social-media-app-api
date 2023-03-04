@@ -28,6 +28,7 @@ const getUserFriends = async (req, res) => {
   if (!friends) {
     throw new NotFound("No friends found!");
   }
+
   const formattedData = friends.map(
     ({ _id, firstName, lastName, picturePath }) => {
       return {
@@ -38,7 +39,7 @@ const getUserFriends = async (req, res) => {
       };
     }
   );
-  res.status(StatusCodes.OK).json({ friends: formattedData });
+  res.status(StatusCodes.OK).json({ friends });
 };
 
 const addremoveFriend = async (req, res) => {
@@ -67,7 +68,7 @@ const addremoveFriend = async (req, res) => {
       };
     }
   );
-  res.status(StatusCodes.OK).json({ friends: formattedData });
+  res.status(StatusCodes.OK).json({ friends });
 };
 
 module.exports = {
