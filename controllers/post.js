@@ -21,7 +21,7 @@ const createPost = async (req, res) => {
     comments: [],
   });
   const posts = await Post.find();
-  res.status(StatusCodes.CREATED).json({ posts });
+  res.status(StatusCodes.CREATED).json({ posts: posts.reverse() });
 };
 
 const getAllPosts = async (req, res) => {
@@ -38,7 +38,7 @@ const getUserPosts = async (req, res) => {
   if (!posts) {
     throw new NotFound("No posts for the moment!");
   }
-  res.status(StatusCodes.OK).json({ posts });
+  res.status(StatusCodes.OK).json({ posts: posts.reverse() });
 };
 
 const likePost = async (res, req) => {
