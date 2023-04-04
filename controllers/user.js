@@ -23,7 +23,9 @@ const getUserFriends = async (req, res) => {
   const { userId } = req.params;
   const user = await User.findOne({ _id: userId });
   const friends = await Promise.all(
-    user.friends.map((id) => User.findOne({ _id: id }))
+    user.friends.map((id) =>
+      User.findOne({ _id: id }).select("firstName lastName picturePath")
+    )
   );
   if (!friends) {
     throw new NotFound("No friends found!");
